@@ -39,7 +39,7 @@ export function CertificateView({ cert, inst, overlay, compute, ratings, onPrint
         <button className="btn btn-primary" onClick={onPrint}>Print / save as PDF</button>
       </div>
       <div id="dg-cert" style={{ maxWidth: 700, margin: '0 auto', background: '#fdfdfc', color: '#201f1d', fontFamily: "'Lora',serif", border: '2px solid #201f1d', padding: 7, boxShadow: '0 18px 60px rgba(0,0,0,0.5)' }}>
-        <div className="cert-inner" style={{ border: '1px solid #7e71c9', padding: '44px 52px 30px', position: 'relative' }}>
+        <div className="cert-inner" style={{ border: '1px solid #7e71c9', padding: '44px 52px 30px', position: 'relative', overflowX: 'hidden' }}>
           {compute.missing > 0 && (
             <div style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', pointerEvents: 'none', overflow: 'hidden' }}>
               <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 92, fontWeight: 600, letterSpacing: '0.18em', color: 'rgba(32,31,29,0.06)', transform: 'rotate(-22deg)', whiteSpace: 'nowrap' }}>
@@ -54,12 +54,12 @@ export function CertificateView({ cert, inst, overlay, compute, ratings, onPrint
             <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 30, fontWeight: 500, letterSpacing: '0.14em' }}>RATING CERTIFICATE</div>
             <div style={{ fontSize: 11, color: '#6b6a67', marginTop: 6, fontVariantNumeric: 'tabular-nums' }}>№ {cert.no} · issued {certDate}</div>
             <div style={{ fontSize: 13, fontStyle: 'italic', marginTop: 26 }}>This is to certify that</div>
-            <div className="cert-name" style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 36, fontWeight: 600, lineHeight: 1.15, marginTop: 8 }}>{pName}</div>
+            <div className="cert-name cert-name-display" style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 36, fontWeight: 600, lineHeight: 1.15, marginTop: 8 }}>{pName}</div>
             <div style={{ fontSize: 12, color: '#6b6a67', marginTop: 6 }}>{pMeta}</div>
             <div style={{ fontSize: 13, fontStyle: 'italic', marginTop: 18, maxWidth: 500, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.6 }}>
               has been assessed under the Denham &amp; Grey internal credit rating model for microfinance banks and is hereby assigned the rating
             </div>
-            <div className="cert-rating" style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 100, fontWeight: 500, lineHeight: 1, marginTop: 12 }}>{finalRating}</div>
+            <div className="cert-rating cert-rating-display" style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 100, fontWeight: 500, lineHeight: 1, marginTop: 12 }}>{finalRating}</div>
             <div style={{ fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#5b4fa8', marginTop: 12, fontWeight: 600 }}>{igLabel}</div>
             <div style={{ fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#201f1d', marginTop: 7, fontWeight: 600 }}>Outlook — {overlay.outlook}</div>
             <div style={{ fontSize: 12, color: '#6b6a67', marginTop: 8, fontVariantNumeric: 'tabular-nums' }}>

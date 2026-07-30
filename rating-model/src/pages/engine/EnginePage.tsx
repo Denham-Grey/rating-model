@@ -186,7 +186,7 @@ export function EnginePage() {
   return (
     <PageShell variant="engine">
       <main style={{ maxWidth: 1080, margin: '0 auto', padding: '22px 24px 60px' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 16 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: 16 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 10.5, fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--color-neutral-400)' }}>
               <span style={{ width: 26, height: 2, background: 'var(--color-accent)', boxShadow: '0 0 10px rgba(145,132,217,0.5)' }} />
@@ -289,7 +289,7 @@ export function EnginePage() {
                     </div>
                     <div style={{ display: 'grid', gap: 5, marginTop: 9 }}>
                       {s.bands.map((b, bi) => (
-                        <div key={bi} style={{ display: 'grid', gridTemplateColumns: '52px 1fr 66px 28px', gap: 9, alignItems: 'center' }}>
+                        <div key={bi} className="grid-band-row">
                           <span className="text-muted" style={{ fontSize: 10.5 }}>Band {bi + 1}</span>
                           <input className="input" value={b.t} onChange={(e) => commit(up((fs) => { fs[fi].subs[si].bands[bi].t = e.target.value; }))} placeholder="Band wording — what this level means" style={{ fontSize: 11.5, padding: '5px 9px' }} />
                           <input className="input score" type="number" min={0} max={100} value={b.s} onChange={(e) => commit(up((fs) => { fs[fi].subs[si].bands[bi].s = Math.max(0, Math.min(100, Math.round(Number(e.target.value) || 0))); }))} />

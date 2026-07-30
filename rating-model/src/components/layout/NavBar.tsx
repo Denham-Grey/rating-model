@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
 
@@ -10,10 +11,15 @@ type NavVariant = 'landing' | 'signin' | 'model' | 'engine' | 'admin';
 export function NavBar({ variant, onNewAssessment }: { variant: NavVariant; onNewAssessment?: () => void }) {
   const { signOut } = useAuth();
   const user = useCurrentUser();
+  const location = useLocation();
+  const [open, setOpen] = useState(false);
   const isAdmin = user.status === 'ready' && user.profile.role === 'admin';
   const sessionLabel = user.status === 'ready'
     ? (user.profile.full_name || user.profile.username || user.email) + (isAdmin ? ' · admin' : '')
     : '';
+
+  // Collapse the mobile menu whenever the route changes.
+  useEffect(() => { setOpen(false); }, [location.pathname]);
 
   return (
     <nav className="nav" style={{ padding: '12px 24px' }}>
@@ -23,71 +29,83 @@ export function NavBar({ variant, onNewAssessment }: { variant: NavVariant; onNe
       </div>
       <span style={{ flex: 1 }} />
 
-      {variant === 'signin' && (
-        <Link className="btn btn-ghost" to="/" style={{ textDecoration: 'none' }}>Home</Link>
-      )}
+      <button
+        type="button"
+        className="nav-toggle"
+        aria-label={open ? 'Close menu' : 'Open menu'}
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+      >
+        {open ? '✕' : '☰'}
+      </button>
 
-      {variant === 'landing' && (
-        <>
-          <span className="text-muted" style={{ fontSize: 11.5, marginRight: 6 }}>{sessionLabel}</span>
-          {isAdmin && (
-            <>
-              <Link className="btn btn-ghost" to="/engine" style={{ textDecoration: 'none' }}>Rating engine</Link>
-              <Link className="btn btn-ghost" to="/admin" style={{ textDecoration: 'none' }}>Console</Link>
-            </>
-          )}
-          <Link className="btn btn-ghost" to="/model" style={{ textDecoration: 'none' }}>Open the model</Link>
-          {user.status === 'ready' && (
-            <button className="btn btn-ghost" onClick={() => void signOut()}>Sign out</button>
-          )}
-          {user.status === 'signed-out' && (
-            <Link className="btn btn-primary" to="/signin" style={{ textDecoration: 'none' }}>Sign in</Link>
-          )}
-        </>
-      )}
-
-      {variant === 'model' && (
-        <>
-          <span className="text-muted" style={{ fontSize: 11.5, marginRight: 6 }}>{sessionLabel}</span>
-          {isAdmin && (
-            <>
-              <Link className="btn btn-ghost" to="/engine" style={{ textDecoration: 'none' }}>Rating engine</Link>
-              <Link className="btn btn-ghost" to="/admin" style={{ textDecoration: 'none' }}>Console</Link>
-            </>
-          )}
+      <div className={`nav-links${open ? ' open' : ''}`}>
+        {variant === 'signin' && (
           <Link className="btn btn-ghost" to="/" style={{ textDecoration: 'none' }}>Home</Link>
-          {user.status === 'ready' && (
-            <>
-              {onNewAssessment && <button className="btn btn-ghost" onClick={onNewAssessment}>New assessment</button>}
+        )}
+
+        {variant === 'landing' && (
+          <>
+            <span className="text-muted" style={{ fontSize: 11.5, marginRight: 6 }}>{sessionLabel}</span>
+            {isAdmin && (
+              <>
+                <Link className="btn btn-ghost" to="/engine" style={{ textDecoration: 'none' }}>Rating engine</Link>
+                <Link className="btn btn-ghost" to="/admin" style={{ textDecoration: 'none' }}>Console</Link>
+              </>
+            )}
+            <Link className="btn btn-ghost" to="/model" style={{ textDecoration: 'none' }}>Open the model</Link>
+            {user.status === 'ready' && (
               <button className="btn btn-ghost" onClick={() => void signOut()}>Sign out</button>
-            </>
-          )}
-        </>
-      )}
+            )}
+            {user.status === 'signed-out' && (
+              <Link className="btn btn-primary" to="/signin" style={{ textDecoration: 'none' }}>Sign in</Link>
+            )}
+          </>
+        )}
 
-      {variant === 'engine' && (
-        <>
-          <span className="text-muted" style={{ fontSize: 11.5, marginRight: 6 }}>{sessionLabel}</span>
-          {isAdmin && (
-            <>
-              <Link className="btn btn-ghost" to="/admin" style={{ textDecoration: 'none' }}>Console</Link>
-              <Link className="btn btn-ghost" to="/model" style={{ textDecoration: 'none' }}>Open the model</Link>
-            </>
-          )}
-          <Link className="btn btn-ghost" to="/" style={{ textDecoration: 'none' }}>Home</Link>
-          {isAdmin && <button className="btn btn-ghost" onClick={() => void signOut()}>Sign out</button>}
-        </>
-      )}
+        {variant === 'model' && (
+          <>
+            <span className="text-muted" style={{ fontSize: 11.5, marginRight: 6 }}>{sessionLabel}</span>
+            {isAdmin && (
+              <>
+                <Link className="btn btn-ghost" to="/engine" style={{ textDecoration: 'none' }}>Rating engine</Link>
+                <Link className="btn btn-ghost" to="/admin" style={{ textDecoration: 'none' }}>Console</Link>
+              </>
+            )}
+            <Link className="btn btn-ghost" to="/" style={{ textDecoration: 'none' }}>Home</Link>
+            {user.status === 'ready' && (
+              <>
+                {onNewAssessment && <button className="btn btn-ghost" onClick={onNewAssessment}>New assessment</button>}
+                <button className="btn btn-ghost" onClick={() => void signOut()}>Sign out</button>
+              </>
+            )}
+          </>
+        )}
 
-      {variant === 'admin' && (
-        <>
-          <span className="text-muted" style={{ fontSize: 11.5, marginRight: 6 }}>{sessionLabel}</span>
-          <Link className="btn btn-ghost" to="/engine" style={{ textDecoration: 'none' }}>Rating engine</Link>
-          <Link className="btn btn-ghost" to="/model" style={{ textDecoration: 'none' }}>Open the model</Link>
-          <Link className="btn btn-ghost" to="/" style={{ textDecoration: 'none' }}>Home</Link>
-          {isAdmin && <button className="btn btn-ghost" onClick={() => void signOut()}>Sign out</button>}
-        </>
-      )}
+        {variant === 'engine' && (
+          <>
+            <span className="text-muted" style={{ fontSize: 11.5, marginRight: 6 }}>{sessionLabel}</span>
+            {isAdmin && (
+              <>
+                <Link className="btn btn-ghost" to="/admin" style={{ textDecoration: 'none' }}>Console</Link>
+                <Link className="btn btn-ghost" to="/model" style={{ textDecoration: 'none' }}>Open the model</Link>
+              </>
+            )}
+            <Link className="btn btn-ghost" to="/" style={{ textDecoration: 'none' }}>Home</Link>
+            {isAdmin && <button className="btn btn-ghost" onClick={() => void signOut()}>Sign out</button>}
+          </>
+        )}
+
+        {variant === 'admin' && (
+          <>
+            <span className="text-muted" style={{ fontSize: 11.5, marginRight: 6 }}>{sessionLabel}</span>
+            <Link className="btn btn-ghost" to="/engine" style={{ textDecoration: 'none' }}>Rating engine</Link>
+            <Link className="btn btn-ghost" to="/model" style={{ textDecoration: 'none' }}>Open the model</Link>
+            <Link className="btn btn-ghost" to="/" style={{ textDecoration: 'none' }}>Home</Link>
+            {isAdmin && <button className="btn btn-ghost" onClick={() => void signOut()}>Sign out</button>}
+          </>
+        )}
+      </div>
     </nav>
   );
 }

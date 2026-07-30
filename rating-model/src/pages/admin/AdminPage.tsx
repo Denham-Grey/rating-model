@@ -121,7 +121,7 @@ export function AdminPage() {
           <div className="text-muted" style={{ fontSize: 11.5, paddingBottom: 6 }}>{new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12, marginTop: 20 }}>
+        <div className="grid-stats" style={{ marginTop: 20 }}>
           <div className="card" style={{ padding: '14px 18px' }}>
             <div style={{ fontSize: 10, fontWeight: 500, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--color-neutral-400)' }}>Active accounts</div>
             <div style={{ fontFamily: 'var(--font-heading)', fontSize: 32, marginTop: 4 }}>
@@ -143,10 +143,11 @@ export function AdminPage() {
           </div>
         </div>
 
-        <section style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 12, marginTop: 12, alignItems: 'start' }}>
+        <section className="grid-admin-main" style={{ marginTop: 12 }}>
           <div className="card" style={{ padding: 'var(--space-6)' }}>
             <h2 style={{ fontSize: 20, margin: 0, fontWeight: 500 }}>Manage users</h2>
             <div className="text-muted" style={{ fontSize: 11.5, marginTop: 3 }}>Reset a forgotten password, suspend an account while a matter is investigated, or deactivate it. Suspended and deactivated accounts keep their saved ratings but cannot sign in.</div>
+            <div className="table-scroll">
             <table className="table" style={{ width: '100%', marginTop: 12, fontSize: 12 }}>
               <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Created</th><th>Status</th><th style={{ textAlign: 'right' }}>Manage</th></tr></thead>
               <tbody>
@@ -189,6 +190,7 @@ export function AdminPage() {
                 })}
               </tbody>
             </table>
+            </div>
 
             {resetTarget && (
               <div style={{ marginTop: 14, border: '1px solid var(--color-accent)', borderRadius: 'var(--radius-md)', background: 'rgba(145,132,217,0.08)', padding: '14px 16px' }}>
@@ -256,6 +258,7 @@ export function AdminPage() {
           <h2 style={{ fontSize: 20, margin: 0, fontWeight: 500 }}>All assessments</h2>
           <div className="text-muted" style={{ fontSize: 11.5, marginTop: 3 }}>Every rating carried out, newest first — open any to review it in the model.</div>
           {sortedAssess.length > 0 ? (
+            <div className="table-scroll">
             <table className="table" style={{ width: '100%', marginTop: 12, fontSize: 12 }}>
               <thead><tr><th>Institution</th><th>Analyst</th><th>Inputs</th><th>Score</th><th>Rating</th><th>Certificate</th><th>Last updated</th><th /></tr></thead>
               <tbody>
@@ -273,6 +276,7 @@ export function AdminPage() {
                 ))}
               </tbody>
             </table>
+            </div>
           ) : (
             <div className="text-muted" style={{ fontSize: 12, marginTop: 12 }}>No assessments yet.</div>
           )}
@@ -281,11 +285,11 @@ export function AdminPage() {
         <section className="card" style={{ padding: 'var(--space-6)', marginTop: 12 }}>
           <h2 style={{ fontSize: 20, margin: 0, fontWeight: 500 }}>Audit trail</h2>
           <div className="text-muted" style={{ fontSize: 11.5, marginTop: 3 }}>Sign-ins, account changes and assessment activity, newest first.</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '130px 160px 170px 1fr', gap: 12, padding: '10px 0 7px', borderBottom: '1px solid var(--color-neutral-700)', fontSize: 10, fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-neutral-400)' }}>
+          <div className="grid-audit-row grid-audit-header" style={{ padding: '10px 0 7px', borderBottom: '1px solid var(--color-neutral-700)', fontSize: 10, fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--color-neutral-400)' }}>
             <span>When</span><span>Who</span><span>Action</span><span>Detail</span>
           </div>
           {auditLog.slice(0, 150).map((e, i) => (
-            <div key={i} style={{ display: 'grid', gridTemplateColumns: '130px 160px 170px 1fr', gap: 12, padding: '7px 0', borderBottom: '1px solid var(--color-neutral-800)', fontSize: 12, alignItems: 'baseline' }}>
+            <div key={i} className="grid-audit-row" style={{ padding: '7px 0', borderBottom: '1px solid var(--color-neutral-800)', fontSize: 12, alignItems: 'baseline' }}>
               <span className="text-muted" style={{ whiteSpace: 'nowrap' }}>{fmt(e.ts)}</span>
               <span style={{ fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{e.userName}</span>
               <span style={{ color: /failed|deactivated/.test(e.action) ? 'oklch(69% 0.13 350)' : /created|issued|started|reactivated/.test(e.action) ? 'var(--color-accent-300)' : 'var(--color-neutral-200)' }}>{e.action}</span>

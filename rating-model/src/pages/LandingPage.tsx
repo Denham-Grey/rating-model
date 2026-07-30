@@ -57,7 +57,7 @@ export function LandingPage() {
     <PageShell variant="landing">
       <div style={{ minHeight: '100vh', background: 'radial-gradient(720px 340px at 14% -60px, rgba(145,132,217,0.13), transparent 70%), radial-gradient(560px 300px at 94% 6%, rgba(145,132,217,0.06), transparent 70%), var(--color-bg))', fontVariantNumeric: 'tabular-nums' }}>
         <main style={{ maxWidth: 1120, margin: '0 auto', padding: '0 24px' }}>
-          <section style={{ display: 'grid', gridTemplateColumns: '1fr 296px', gap: 56, padding: '62px 0 58px', alignItems: 'start' }}>
+          <section className="grid-hero" style={{ padding: '62px 0 58px', alignItems: 'start' }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 10.5, fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--color-neutral-400)' }}>
                 <span style={{ width: 26, height: 2, background: TOP_BAR_ACCENT }} />
@@ -167,7 +167,7 @@ export function LandingPage() {
                 CAMELS · {presetLabel} weights
               </span>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12 }}>
+            <div className="grid-pillars">
               {pillars.map((p) => (
                 <div key={p.title} className="card" style={{ padding: 18 }}>
                   <div style={{ width: 22, height: 2, background: p.hue, boxShadow: `0 0 8px ${p.hue}` }} />
@@ -188,7 +188,7 @@ export function LandingPage() {
               <h2 style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, fontSize: 30, margin: 0 }}>From first entry to certificate</h2>
               <span style={{ flex: 1, height: 1, background: 'linear-gradient(90deg,var(--color-neutral-700),transparent)' }} />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 14 }}>
+            <div className="grid-method">
               {[
                 ['i.', 'Institution', 'Who is being rated — licence type, location and the analyst of record.'],
                 ['ii.', 'Financials', 'Capital, asset quality, earnings and liquidity, band by band against the CBN benchmarks.'],
@@ -206,7 +206,7 @@ export function LandingPage() {
                 </div>
               ))}
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 34, paddingTop: 22, borderTop: '1px solid var(--color-neutral-800)' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16, marginTop: 34, paddingTop: 22, borderTop: '1px solid var(--color-neutral-800)' }}>
               <Link className="btn btn-primary" to="/model" style={{ textDecoration: 'none' }}>Begin an assessment</Link>
               <span style={{ fontSize: 12, color: 'var(--color-neutral-500)' }}>
                 Sign in with your analyst account — every assessment is saved to its analyst, and all activity is logged in the audit trail.

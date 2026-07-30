@@ -1,0 +1,189 @@
+/* Mobile responsiveness — not present in the original desktop-only app.
+   Single breakpoint at 760px (covers phones + small tablets in portrait).
+   Structural layout (grid-template-columns, flex-direction) lives here as
+   classes rather than inline styles, since inline styles can't respond to
+   media queries; decorative styles (color, spacing) stay inline on the
+   components themselves. */
+
+/* — nav — */
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* — landing — */
+.grid-hero {
+  display: grid;
+  grid-template-columns: 1fr 296px;
+  gap: 56px;
+}
+.grid-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.grid-method {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
+/* — model page — */
+.grid-model-main {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 12px;
+  align-items: start;
+}
+.grid-inst-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 14px;
+}
+.grid-subfactor {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+}
+.flex-rating-result {
+  display: flex;
+  gap: 36px;
+  align-items: flex-start;
+}
+.step-tabs {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.step-tab-item {
+  flex: 1;
+  min-width: 0;
+}
+.grid-doc-row {
+  display: grid;
+  grid-template-columns: 1fr 210px auto auto;
+  gap: 10px;
+  align-items: center;
+}
+.grid-factor-breakdown {
+  display: grid;
+  grid-template-columns: 200px 1fr 100px;
+  gap: 12px;
+  align-items: center;
+}
+
+/* — engine page — */
+.grid-band-row {
+  display: grid;
+  grid-template-columns: 52px 1fr 66px 28px;
+  gap: 9px;
+  align-items: center;
+}
+
+/* — admin page — */
+.grid-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.grid-admin-main {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 12px;
+  align-items: start;
+}
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Grid/flex items default to min-width:auto, which lets wide intrinsic
+   content (tables, in particular) push the item — and the whole page —
+   wider than the track, escaping .table-scroll's own overflow:auto. This
+   is what needs to actually go around each of these, not the media query
+   below (the bug is visible any time content is wide relative to its
+   track, it just never came up above 760px because there was always
+   enough room). */
+.grid-admin-main > *,
+.grid-model-main > *,
+.grid-hero > *,
+.grid-stats > *,
+.grid-pillars > *,
+.grid-method > * {
+  min-width: 0;
+}
+
+.grid-audit-row {
+  display: grid;
+  grid-template-columns: 130px 160px 170px 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 760px) {
+  body { font-size: 14px; }
+
+  .nav-toggle { display: flex; }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    width: 100%;
+    order: 3;
+    margin-top: 10px;
+  }
+  .nav-links.open { display: flex; }
+  .nav { flex-wrap: wrap; }
+
+  .step-tab-item { flex: 0 0 auto; min-width: 108px; }
+
+  .grid-hero { grid-template-columns: 1fr; gap: 32px; }
+  .grid-pillars { grid-template-columns: 1fr; }
+  .grid-method { grid-template-columns: 1fr; gap: 20px; }
+
+  .grid-model-main { grid-template-columns: 1fr; }
+  .grid-inst-form { grid-template-columns: 1fr; }
+  .grid-subfactor { grid-template-columns: 1fr; }
+  .flex-rating-result { flex-direction: column; gap: 20px; }
+  .flex-rating-result > div:last-child { border-left: none !important; padding-left: 0 !important; }
+  .final-rating-display { font-size: 64px !important; }
+
+  .cert-rating-display { font-size: 56px !important; }
+  .cert-name-display { font-size: 24px !important; }
+  #dg-cert { padding: 3px !important; }
+  .cert-inner { padding: 24px 20px 18px !important; }
+
+  .grid-band-row { grid-template-columns: 40px 1fr 56px 28px; gap: 6px; }
+
+  .grid-doc-row { grid-template-columns: 1fr; gap: 8px; }
+  .grid-factor-breakdown { grid-template-columns: 1fr; gap: 4px; text-align: left !important; }
+  .grid-factor-breakdown > div:last-child { text-align: left !important; }
+
+  .grid-stats { grid-template-columns: repeat(2, 1fr); }
+  .grid-admin-main { grid-template-columns: 1fr; }
+  .grid-audit-row { grid-template-columns: 1fr; gap: 2px; }
+  .grid-audit-row.grid-audit-header { display: none; }
+
+  h1 { font-size: 30px !important; }
+  h2 { font-size: 22px !important; }
+}
+
+@media (max-width: 420px) {
+  .grid-stats { grid-template-columns: 1fr; }
+}

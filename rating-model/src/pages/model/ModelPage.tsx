@@ -372,7 +372,7 @@ export function ModelPage() {
                     {done} of {g.list.length} scored
                   </span>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 14px', marginTop: 8 }}>
+                <div className="grid-subfactor" style={{ marginTop: 8 }}>
                   {g.list.map(renderSub)}
                 </div>
               </div>
@@ -414,14 +414,15 @@ export function ModelPage() {
             </div>
             <div className="text-muted" style={{ fontSize: 11.5, paddingBottom: 4, textAlign: 'right' }}>{ownerLine}<br />{todayLabel}</div>
           </div>
-          <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>
+          <div className="step-tabs">
             {STEP_LABELS.map((label, i) => {
               const cur = i === step, done = i <= maxVisited;
               return (
                 <div
                   key={label}
+                  className="step-tab-item"
                   onClick={done && !cur ? () => setStep(i) : undefined}
-                  style={{ flex: 1, cursor: done && !cur ? 'pointer' : 'default', minWidth: 0 }}
+                  style={{ cursor: done && !cur ? 'pointer' : 'default' }}
                 >
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 7, whiteSpace: 'nowrap' }}>
                     <span style={{ fontFamily: 'var(--font-heading)', fontStyle: 'italic', fontSize: 16, color: cur ? 'var(--color-accent-300)' : done ? 'var(--color-neutral-300)' : 'var(--color-neutral-600)' }}>{NUMERALS[i]}</span>
@@ -433,13 +434,13 @@ export function ModelPage() {
             })}
           </div>
         </header>
-        <main style={{ padding: '0 24px 20px', display: 'grid', gridTemplateColumns: '1fr 300px', gap: 12, alignItems: 'start' }}>
+        <main className="grid-model-main" style={{ padding: '0 24px 20px' }}>
           <div>
             {step === 0 && (
               <section className="card" style={{ padding: 'var(--space-8)' }}>
                 <h2 style={{ fontSize: 23, margin: '0 0 2px', fontWeight: 500 }}>The institution</h2>
                 <div className="text-muted" style={{ fontSize: 12, marginBottom: 18 }}>Who is being rated. Fields marked · are required.</div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px 14px' }}>
+                <div className="grid-inst-form">
                   <div style={{ gridColumn: 'span 2' }}>
                     <label style={{ display: 'block', fontSize: 12, color: 'var(--color-neutral-300)', fontWeight: 500, marginBottom: 5 }}>Institution name ·</label>
                     <input className="input" value={inst.name} onChange={(e) => { setInst({ ...inst, name: e.target.value }); setErrors({}); }} placeholder="e.g. Crestfield Microfinance Bank Ltd" />
@@ -514,7 +515,7 @@ export function ModelPage() {
                   {docs.length > 0 && (
                     <div style={{ marginTop: 16, display: 'grid', gap: 8 }}>
                       {docs.map((d, i) => (
-                        <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 210px auto auto', gap: 10, alignItems: 'center', border: '1px solid var(--color-divider)', borderRadius: 'var(--radius-md)', padding: '9px 12px' }}>
+                        <div key={i} className="grid-doc-row" style={{ border: '1px solid var(--color-divider)', borderRadius: 'var(--radius-md)', padding: '9px 12px' }}>
                           <div style={{ minWidth: 0 }}>
                             <input className="input" value={d.name} onChange={(e) => updateDoc(i, { name: e.target.value })} placeholder="Document title — e.g. Audited FS FY2025" style={{ fontSize: 12.5, padding: '6px 10px' }} />
                             <div className="text-muted" style={{ fontSize: 10.5, marginTop: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -606,10 +607,10 @@ export function ModelPage() {
               <section className="card" style={{ padding: 'var(--space-8)' }}>
                 {c.adj != null ? (
                   <>
-                    <div style={{ display: 'flex', gap: 36, alignItems: 'flex-start' }}>
+                    <div className="flex-rating-result">
                       <div style={{ flex: 'none', textAlign: 'left' }}>
                         <div className="text-muted" style={{ fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 500 }}>Final rating</div>
-                        <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, fontSize: 104, lineHeight: 1, marginTop: 4, color: 'var(--color-accent)', textShadow: '0 0 34px rgba(145,132,217,0.45)' }}>{finalRating}</div>
+                        <div className="final-rating-display" style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, fontSize: 104, lineHeight: 1, marginTop: 4, color: 'var(--color-accent)', textShadow: '0 0 34px rgba(145,132,217,0.45)' }}>{finalRating}</div>
                         <div style={{ width: 26, height: 2, background: 'var(--color-accent)', boxShadow: '0 0 10px rgba(145,132,217,0.55)', margin: '12px 0 8px' }} />
                         <div style={{ fontSize: 12.5, color: 'var(--color-neutral-200)' }}>{igLabel} · {overlay.outlook} outlook</div>
                         <div className="text-muted" style={{ fontSize: 11.5, marginTop: 3 }}>{provLabel}</div>
@@ -648,7 +649,7 @@ export function ModelPage() {
                         const s = c.scores[f.key];
                         const hue = f.hue;
                         return (
-                          <div key={f.key} style={{ display: 'grid', gridTemplateColumns: '200px 1fr 100px', gap: 12, alignItems: 'center', marginBottom: 10 }}>
+                          <div key={f.key} className="grid-factor-breakdown" style={{ marginBottom: 10 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12.5, fontWeight: 500 }}>
                               <span style={{ width: 7, height: 7, borderRadius: '50%', background: s == null ? 'var(--color-neutral-700)' : hue, flex: 'none' }} />
                               <span>{f.title}</span>
