@@ -1,0 +1,11 @@
+{
+  "name": "dg-rating-model-verify",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "verify": "node verify.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2"
+  }
+}
