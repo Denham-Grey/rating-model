@@ -17,7 +17,7 @@ export const SYSTEMS: Record<SystemId, SystemConfig> = {
   ddq: { url: "https://duediligence.denhamandgrey.com/", status: "live" }, // 01 Due Diligence
   aml: { url: "", status: "live" }, // 02 AML/CFT
   rtg: { url: "https://credit-risk.denhamandgrey.com/", status: "live" }, // 03 Credit Rating
-  esg: { url: "", status: "live" }, // 04 Sustainability Rating
+  esg: { url: "https://fisr.denhamandgrey.com/", status: "live" }, // 04 Sustainability Rating
   mon: { url: "", status: "live" }, // 05 Portfolio Monitor
   grn: { url: "", status: "live" }, // 06 Green Academy
 };
